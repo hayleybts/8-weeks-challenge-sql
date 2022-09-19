@@ -5,3 +5,17 @@ FROM dannys_diner.menu m join dannys_diner.sales s
 on m.product_id = s.product_id
 group by customer_id
 order by customer_id;
+
+
+WITH order_info_cte AS
+  (SELECT s.customer_id,
+          product_id,
+          DENSE_RANK() OVER(PARTITION BY s.customer_id
+                            ORDER BY s.order_date ) AS item_rank
+   FROM dannys_diner.sales AS s
+   JOIN dannys_diner.members AS m ON s.customer_id = m.customer_id
+  where s.order_date >= m.join_date)
+
+
+select * from order_info_cte join where item_rank =1
+;
