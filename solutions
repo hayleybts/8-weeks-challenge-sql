@@ -19,3 +19,10 @@ WITH order_info_cte AS
 
 select * from order_info_cte join where item_rank =1
 ;
+-------
+8.select count(distinct s.product_id) as total_items,sum(price),s.customer_id as spent 
+FROM dannys_diner.sales AS s
+   JOIN dannys_diner.members AS m ON s.customer_id = m.customer_id
+   join dannys_diner.menu n on n.product_id = s.product_id
+   where s.order_date < m.join_date
+   group by s.customer_id
