@@ -1,0 +1,13 @@
+Transaction Analysis
+1.How many unique transactions were there?
+select count(distinct txn_id) from balanced_tree.sales;
+
+2.What is the average unique products purchased in each transaction?
+with oops as (select count(distinct prod_id) as uni,
+              txn_id from balanced_tree.sales
+group by txn_id
+order by txn_id)
+
+select round(avg(uni)) as avg from oops
+
+
